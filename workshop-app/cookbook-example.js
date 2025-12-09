@@ -1,5 +1,6 @@
 // Meta AI Cookbook Example - Text Summarization
 const { pipeline } = require('@xenova/transformers');
+const { renderMarkdown } = require('./markdownRenderer');
 
 class Summarizer {
   static task = 'summarization';
@@ -23,12 +24,8 @@ module.exports = async function summarizeText(text) {
     });
     
     // Format response with markdown for better readability
-    const formattedResponse = result[0].summary_text
-      .replace(/\*/g, '•')
-      .replace(/(\d+\.)/g, '\n$1')
-      .replace(/([A-Z][a-z]+:)/g, '\n**$1**\n');
-    
-    return formattedResponse;
+    const markdownText = `# Summary\n\n${result[0].summary_text}`;
+    return renderMarkdown(markdownText);
   } catch (error) {
     console.error('Summarization error:', error);
     throw error;
