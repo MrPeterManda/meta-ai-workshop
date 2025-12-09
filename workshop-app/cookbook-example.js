@@ -21,7 +21,14 @@ module.exports = async function summarizeText(text) {
       max_length: 100,
       min_length: 30,
     });
-    return result[0].summary_text;
+    
+    // Format response with markdown for better readability
+    const formattedResponse = result[0].summary_text
+      .replace(/\*/g, '•')
+      .replace(/(\d+\.)/g, '\n$1')
+      .replace(/([A-Z][a-z]+:)/g, '\n**$1**\n');
+    
+    return formattedResponse;
   } catch (error) {
     console.error('Summarization error:', error);
     throw error;
