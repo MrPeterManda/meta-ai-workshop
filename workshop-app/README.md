@@ -1122,6 +1122,9 @@ Your app is live — now let’s take it further.
 - Share it with classmates, on social media, or in developer communities.  
 - Encourage feedback to see how others interact with your AI features.  
 
+**1a. Google Form**
+- Please fill in the **[form](https://docs.google.com/forms/d/e/1FAIpQLSewy25dhnbzeYtmrQrUMJETa5jAdyR-51b2tIubT5CLEKz33A/viewform?usp=publish-editor)**
+
 **2. Monitor Performance**  
 - Check logs regularly in Render/Railway dashboards for errors or warnings.  
 - Use built‑in analytics or add monitoring tools (e.g., PostHog, LogRocket) to track usage.  
