@@ -4,46 +4,63 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meta AI Workshop</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-    
-    /* Tab styling */
-    .tab { overflow: hidden; border: 1px solid #ccc; background-color: #f1f1f1; }
-    .tab button { background-color: inherit; float: left; border: none; outline: none; cursor: pointer; padding: 14px 16px; transition: 0.3s; }
-    .tab button:hover { background-color: #ddd; }
-    .tab button.active { background-color: #007bff; color: white; }
-    .tabcontent { display: none; padding: 20px 0; animation: fadeEffect 1s; }
-    @keyframes fadeEffect { from {opacity: 0;} to {opacity: 1;} }
-    
-    #chat, #summaryResult { border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; height: 400px; overflow-y: auto; }
-    #input, #textToSummarize { width: 100%; padding: 10px; margin-bottom: 10px; }
-    button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
-    .message { margin-bottom: 10px; padding: 10px; border-radius: 5px; }
-    .user { background: #e3f2fd; align-self: flex-end; }
-    .assistant { background: #f5f5f5; }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>Meta AI Workshop</h1>
-  
-  <div class="tab">
-    <button class="tablinks active" onclick="openTab(event, 'Chat')">Chat</button>
-    <button class="tablinks" onclick="openTab(event, 'Summarize')">Summarize</button>
-  </div>
-  
-  <div id="Chat" class="tabcontent" style="display:block">
-    <div id="chat"></div>
-    <input type="text" id="input" placeholder="Type your message...">
-    <button onclick="sendMessage()">Send</button>
-  </div>
-  
-  <div id="Summarize" class="tabcontent">
-    <textarea id="textToSummarize" rows="10" placeholder="Enter text to summarize..."></textarea>
-    <button onclick="summarizeText()">Summarize</button>
-    <div id="summaryResult"></div>
+<body class="bg-gray-100 font-sans">
+  <div class="container mx-auto max-w-4xl p-4">
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Meta AI Workshop</h1>
+    
+    <div class="mb-4 border-b border-gray-200">
+      <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+        <li class="mr-2" role="presentation">
+          <button class="inline-block p-4 border-b-2 rounded-t-lg" id="chat-tab" data-tabs-target="#chat-content" type="button" role="tab" aria-controls="chat-content" aria-selected="true">Chat</button>
+        </li>
+        <li class="mr-2" role="presentation">
+          <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="summarize-tab" data-tabs-target="#summarize-content" type="button" role="tab" aria-controls="summarize-content" aria-selected="false">Summarize</button>
+        </li>
+      </ul>
+    </div>
+    
+    <div id="myTabContent">
+      <div class="hidden p-4 rounded-lg bg-white" id="chat-content" role="tabpanel" aria-labelledby="chat-tab">
+        <div id="chat" class="h-96 overflow-y-auto p-4 border border-gray-200 rounded-lg mb-4"></div>
+        <div class="flex">
+          <input type="text" id="input" class="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your message...">
+          <button onclick="sendMessage()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r-lg">Send</button>
+        </div>
+      </div>
+      
+      <div class="hidden p-4 rounded-lg bg-white" id="summarize-content" role="tabpanel" aria-labelledby="summarize-tab">
+        <textarea id="textToSummarize" rows="10" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter text to summarize..."></textarea>
+        <button onclick="summarizeText()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4">Summarize</button>
+        <div id="summaryResult" class="mt-4 p-4 border border-gray-200 rounded-lg"></div>
+      </div>
+    </div>
   </div>
 
   <script>
+    const chatTab = document.getElementById('chat-tab');
+    const summarizeTab = document.getElementById('summarize-tab');
+    const chatContent = document.getElementById('chat-content');
+    const summarizeContent = document.getElementById('summarize-content');
+
+    chatTab.addEventListener('click', () => {
+      chatContent.classList.remove('hidden');
+      summarizeContent.classList.add('hidden');
+      chatTab.classList.add('border-blue-500', 'text-blue-600');
+      summarizeTab.classList.remove('border-blue-500', 'text-blue-600');
+    });
+
+    summarizeTab.addEventListener('click', () => {
+      summarizeContent.classList.remove('hidden');
+      chatContent.classList.add('hidden');
+      summarizeTab.classList.add('border-blue-500', 'text-blue-600');
+      chatTab.classList.remove('border-blue-500', 'text-blue-600');
+    });
+    
+    // Default to chat tab
+    chatTab.click();
+
     const chat = document.getElementById('chat');
     const input = document.getElementById('input');
     
@@ -55,7 +72,12 @@
       chat.innerHTML = '';
       messages.forEach(msg => {
         const div = document.createElement('div');
-        div.className = `message ${msg.role}`;
+        div.classList.add('mb-2', 'p-3', 'rounded-lg', 'max-w-lg');
+        if (msg.role === 'user') {
+          div.classList.add('bg-blue-100', 'text-gray-800', 'self-end', 'ml-auto');
+        } else {
+          div.classList.add('bg-gray-200', 'text-gray-800', 'self-start', 'mr-auto');
+        }
         div.textContent = msg.content;
         chat.appendChild(div);
       });
@@ -89,25 +111,13 @@
     
     renderMessages();
     
-    function openTab(evt, tabName) {
-      const tabcontent = document.getElementsByClassName("tabcontent");
-      for (let i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      
-      const tablinks = document.getElementsByClassName("tablinks");
-      for (let i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      
-      document.getElementById(tabName).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
-    
     async function summarizeText() {
       const text = document.getElementById('textToSummarize').value.trim();
       if (!text) return;
       
+      const summaryResult = document.getElementById('summaryResult');
+      summaryResult.innerHTML = '<p>Summarizing...</p>';
+
       try {
         const response = await fetch('/api/cookbook-example', {
           method: 'POST',
@@ -116,12 +126,12 @@
         });
         
         const data = await response.json();
-        document.getElementById('summaryResult').innerHTML = 
-          `<h3>Original Text</h3><p>${data.original_text}</p>
-           <h3>Summary</h3><p>${data.summary}</p>`;
+        summaryResult.innerHTML = 
+          `<h3 class="text-xl font-bold mb-2">Original Text</h3><p class="mb-4">${data.original_text}</p>
+           <h3 class="text-xl font-bold mb-2">Summary</h3><p>${data.summary}</p>`;
       } catch (error) {
         console.error('Error:', error);
-        alert('Failed to summarize text');
+        summaryResult.innerHTML = '<p class="text-red-500">Failed to summarize text.</p>';
       }
     }
   </script>
