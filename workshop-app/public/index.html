@@ -1,139 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meta AI Workshop</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta AI Workshop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Marked.js for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* Custom styles for better message formatting */
+        .message-content {
+            line-height: 1.6;
+        }
+        .message-content h1, .message-content h2, .message-content h3 {
+            font-weight: bold;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .message-content h1 { font-size: 1.5rem; }
+        .message-content h2 { font-size: 1.3rem; }
+        .message-content h3 { font-size: 1.1rem; }
+        .message-content p {
+            margin-bottom: 0.75rem;
+        }
+        .message-content ul, .message-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .message-content li {
+            margin-bottom: 0.25rem;
+        }
+        .message-content code {
+            background-color: #f3f4f6;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+        }
+        .message-content pre {
+            background-color: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin-bottom: 0.75rem;
+        }
+        .message-content pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .message-content strong {
+            font-weight: 600;
+        }
+        .message-content em {
+            font-style: italic;
+        }
+        .message-content blockquote {
+            border-left: 4px solid #d1d5db;
+            padding-left: 1rem;
+            margin: 0.75rem 0;
+            color: #6b7280;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 font-sans">
-  <div class="container mx-auto max-w-4xl p-4">
-    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Meta AI Workshop</h1>
-    
-    <div class="mb-4 border-b border-gray-200">
-      <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
-        <li class="mr-2" role="presentation">
-          <button class="inline-block p-4 border-b-2 rounded-t-lg" id="chat-tab" data-tabs-target="#chat-content" type="button" role="tab" aria-controls="chat-content" aria-selected="true">Chat</button>
-        </li>
-        <li class="mr-2" role="presentation">
-          <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="summarize-tab" data-tabs-target="#summarize-content" type="button" role="tab" aria-controls="summarize-content" aria-selected="false">Summarize</button>
-        </li>
-      </ul>
-    </div>
-    
-    <div id="myTabContent">
-      <div class="hidden p-4 rounded-lg bg-white" id="chat-content" role="tabpanel" aria-labelledby="chat-tab">
-        <div id="chat" class="h-96 overflow-y-auto p-4 border border-gray-200 rounded-lg mb-4"></div>
-        <div class="flex">
-          <input type="text" id="input" class="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your message...">
-          <button onclick="sendMessage()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r-lg">Send</button>
+    <div class="container mx-auto max-w-4xl p-4">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Meta AI Workshop</h1>
+
+        <!-- Tab Navigation -->
+        <div class="mb-4 border-b border-gray-200">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+                <li class="mr-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="chat-tab" data-tabs-target="#chat-content" type="button" role="tab" aria-controls="chat-content" aria-selected="true">Chat</button>
+                </li>
+                <li class="mr-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="summarize-tab" data-tabs-target="#summarize-content" type="button" role="tab" aria-controls="summarize-content" aria-selected="false">Summarize</button>
+                </li>
+            </ul>
         </div>
-      </div>
-      
-      <div class="hidden p-4 rounded-lg bg-white" id="summarize-content" role="tabpanel" aria-labelledby="summarize-tab">
-        <textarea id="textToSummarize" rows="10" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter text to summarize..."></textarea>
-        <button onclick="summarizeText()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4">Summarize</button>
-        <div id="summaryResult" class="mt-4 p-4 border border-gray-200 rounded-lg"></div>
-      </div>
+
+        <!-- Tab Content -->
+        <div id="myTabContent">
+            <!-- Chat Tab -->
+            <div class="hidden p-4 rounded-lg bg-white" id="chat-content" role="tabpanel" aria-labelledby="chat-tab">
+                <div id="chat" class="h-96 overflow-y-auto p-4 border border-gray-200 rounded-lg mb-4"></div>
+                <div class="flex">
+                    <input type="text" id="input" class="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your message..." />
+                    <button onclick="sendMessage()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r-lg">Send</button>
+                </div>
+            </div>
+
+            <!-- Summarize Tab -->
+            <div class="hidden p-4 rounded-lg bg-white" id="summarize-content" role="tabpanel" aria-labelledby="summarize-tab">
+                <textarea id="textToSummarize" rows="10" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter text to summarize..."></textarea>
+                <button onclick="summarizeText()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4">Summarize</button>
+                <div id="summaryResult" class="mt-4 p-4 border border-gray-200 rounded-lg"></div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    const chatTab = document.getElementById('chat-tab');
-    const summarizeTab = document.getElementById('summarize-tab');
-    const chatContent = document.getElementById('chat-content');
-    const summarizeContent = document.getElementById('summarize-content');
+    <script>
+        // Tab switching logic
+        const chatTab = document.getElementById('chat-tab');
+        const summarizeTab = document.getElementById('summarize-tab');
+        const chatContent = document.getElementById('chat-content');
+        const summarizeContent = document.getElementById('summarize-content');
 
-    chatTab.addEventListener('click', () => {
-      chatContent.classList.remove('hidden');
-      summarizeContent.classList.add('hidden');
-      chatTab.classList.add('border-blue-500', 'text-blue-600');
-      summarizeTab.classList.remove('border-blue-500', 'text-blue-600');
-    });
+        chatTab.addEventListener('click', () => {
+            chatContent.classList.remove('hidden');
+            summarizeContent.classList.add('hidden');
+            chatTab.classList.add('border-blue-500', 'text-blue-600');
+            summarizeTab.classList.remove('border-blue-500', 'text-blue-600');
+        });
 
-    summarizeTab.addEventListener('click', () => {
-      summarizeContent.classList.remove('hidden');
-      chatContent.classList.add('hidden');
-      summarizeTab.classList.add('border-blue-500', 'text-blue-600');
-      chatTab.classList.remove('border-blue-500', 'text-blue-600');
-    });
-    
-    // Default to chat tab
-    chatTab.click();
+        summarizeTab.addEventListener('click', () => {
+            summarizeContent.classList.remove('hidden');
+            chatContent.classList.add('hidden');
+            summarizeTab.classList.add('border-blue-500', 'text-blue-600');
+            chatTab.classList.remove('border-blue-500', 'text-blue-600');
+        });
 
-    const chat = document.getElementById('chat');
-    const input = document.getElementById('input');
-    
-    let messages = [
-      { role: 'assistant', content: 'Hello! How can I help you today?' }
-    ];
-    
-    function renderMessages() {
-      chat.innerHTML = '';
-      messages.forEach(msg => {
-        const div = document.createElement('div');
-        div.classList.add('mb-2', 'p-3', 'rounded-lg', 'max-w-lg');
-        if (msg.role === 'user') {
-          div.classList.add('bg-blue-100', 'text-gray-800', 'self-end', 'ml-auto');
-        } else {
-          div.classList.add('bg-gray-200', 'text-gray-800', 'self-start', 'mr-auto');
+        // Default to chat tab
+        chatTab.click();
+
+        // Chat functionality
+        const chat = document.getElementById('chat');
+        const input = document.getElementById('input');
+        let messages = [
+            { role: 'assistant', content: 'Hello! How can I help you today?' }
+        ];
+
+        function renderMessages() {
+            chat.innerHTML = '';
+            messages.forEach(msg => {
+                const div = document.createElement('div');
+                div.classList.add('mb-2', 'p-3', 'rounded-lg', 'max-w-lg');
+
+                if (msg.role === 'user') {
+                    div.classList.add('bg-blue-100', 'text-gray-800', 'self-end', 'ml-auto');
+                    div.textContent = msg.content;
+                } else {
+                    div.classList.add('bg-gray-200', 'text-gray-800', 'self-start', 'mr-auto');
+
+                    // Create a content wrapper with the message-content class
+                    const contentDiv = document.createElement('div');
+                    contentDiv.classList.add('message-content');
+
+                    // Use marked.js to parse markdown and render as HTML
+                    contentDiv.innerHTML = marked.parse(msg.content);
+
+                    div.appendChild(contentDiv);
+                }
+
+                chat.appendChild(div);
+            });
+            chat.scrollTop = chat.scrollHeight;
         }
-        div.textContent = msg.content;
-        chat.appendChild(div);
-      });
-      chat.scrollTop = chat.scrollHeight;
-    }
-    
-    async function sendMessage() {
-      const userMessage = input.value.trim();
-      if (!userMessage) return;
-      
-      messages.push({ role: 'user', content: userMessage });
-      input.value = '';
-      renderMessages();
-      
-      try {
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages })
-        });
-        
-        const data = await response.json();
-        const assistantMessage = data.choices[0].message;
-        messages.push(assistantMessage);
-        renderMessages();
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to get response');
-      }
-    }
-    
-    renderMessages();
-    
-    async function summarizeText() {
-      const text = document.getElementById('textToSummarize').value.trim();
-      if (!text) return;
-      
-      const summaryResult = document.getElementById('summaryResult');
-      summaryResult.innerHTML = '<p>Summarizing...</p>';
 
-      try {
-        const response = await fetch('/api/cookbook-example', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text })
+        async function sendMessage() {
+            const userMessage = input.value.trim();
+            if (!userMessage) return;
+
+            messages.push({ role: 'user', content: userMessage });
+            input.value = '';
+            renderMessages();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ messages })
+                });
+
+                const data = await response.json();
+                const assistantMessage = data.choices[0].message;
+                messages.push(assistantMessage);
+                renderMessages();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to get response');
+            }
+        }
+
+        // Allow sending message with Enter key
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
         });
-        
-        const data = await response.json();
-        summaryResult.innerHTML = 
-          `<h3 class="text-xl font-bold mb-2">Original Text</h3><p class="mb-4">${data.original_text}</p>
-           <h3 class="text-xl font-bold mb-2">Summary</h3><p>${data.summary}</p>`;
-      } catch (error) {
-        console.error('Error:', error);
-        summaryResult.innerHTML = '<p class="text-red-500">Failed to summarize text.</p>';
-      }
-    }
-  </script>
+
+        renderMessages();
+
+        // Summarize functionality
+        async function summarizeText() {
+            const text = document.getElementById('textToSummarize').value.trim();
+            if (!text) return;
+
+            const summaryResult = document.getElementById('summaryResult');
+            summaryResult.innerHTML = '<p>Summarizing...</p>';
+
+            try {
+                const response = await fetch('/api/cookbook-example', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+
+                const data = await response.json();
+                summaryResult.innerHTML = `
+                    <h3 class="text-xl font-bold mb-2">Original Text</h3>
+                    <p class="mb-4">${data.original_text}</p>
+                    <h3 class="text-xl font-bold mb-2">Summary</h3>
+                    <div class="message-content">${marked.parse(data.summary)}</div>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                summaryResult.innerHTML = '<p class="text-red-500">Failed to summarize text.</p>';
+            }
+        }
+    </script>
 </body>
 </html>
