@@ -81,5 +81,9 @@
 
 ## Resources
 - [OpenRouter API Documentation](https://openrouter.ai/docs)
+<<<<<<< HEAD
 - [Meta AI Cookbook](https://ai.meta.com/)
+=======
+- [Meta AI Cookbook](https://www.llama.com/resources/cookbook/)
+>>>>>>> 2ccf543994cef0ee86452ec9981e13bd94b250bf
 - [Workshop Code Reference](README.md)
