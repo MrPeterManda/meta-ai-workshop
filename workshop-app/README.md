@@ -1,414 +1,262 @@
-# Meta AI Workshop: Building AI-Integrated Web Applications
+Here's the revised README without emojis and citations:
 
-## Workshop Philosophy
+***
 
-**Why This Matters:** In 2025, AI integration is no longer optional—it's a competitive necessity. Companies are rapidly shifting from proprietary, expensive AI solutions to free-tier open-source models like Meta's Llama. This workshop equips you with skills that make you immediately valuable to startups and enterprises.
+# Meta AI Workshop: Build Production-Ready AI Applications
 
-**The Reality:** Without AI integration capabilities, you're competing at a disadvantage. After this two-day workshop, you won't be.
+**Welcome, Builder!** You're about to transform a simple web app into a powerful AI-integrated platform using Meta's Llama models. By the end of this workshop, you'll have deployed real AI features that companies pay thousands for—all using free, open-source tools.
 
----
+***
 
-## Learning Outcomes
+## What You'll Build
 
-By the end of two days, you will be able to:
+Transform a basic chat interface into a multi-functional AI platform featuring:
+- Real-time conversational AI with context memory
+- Multimodal document processing (text + images)
+- RAG-powered knowledge retrieval
+- Automated prompt optimisation
+- Synthetic data generation for model training
 
-### Understand
-- **How to integrate AI services into web applications** – From API calls to production deployment
-- **Why companies are shifting to free-tier open-source AI (Llama)** – Cost efficiency, customisation, and control
-- **Trade-offs between proprietary vs. open-source AI approaches** – When to use each and why
+**The best part?** Every feature you build here is production-ready and deployment-ready.
 
-### Build
-- **Real applications using free Llama APIs** – Not just toy examples
-- **Deployed live projects** – Beyond localhost; ready for the real world
-- **Professional code with proper security practices** – Environment variables, error handling, rate limiting
+***
 
-### Recognise
-- **Why AI integration is now a core skill** – Industry demand is skyrocketing
-- **How free-tier APIs make you relevant for startups and enterprises** – Sustainable development without enterprise budgets
-- **Current industry approaches to sustainable AI development** – Cost-effective, scalable solutions
+## Understanding Your Codebase
 
----
+Before we start building, let's map out what you already have. This foundation will power all your AI features.
 
-## Workshop Structure
+### Project Structure
 
-### Day 1: Foundations & Core Implementation
-
-#### Introduction to Meta AI and OpenRouter
-- Overview of Meta's Llama models and their capabilities
-- Understanding why open-source AI is transforming the industry
-- Getting OpenRouter API keys and exploring documentation
-- Cost comparison: Proprietary vs. open-source AI
-
-#### Hands-on Setup & Testing
-- Setting up the project (`npm install`)
-- Configuring environment variables securely
-- Testing the basic chat endpoint with Llama
-- Exploring the Meta AI Cookbook examples
-- Understanding streaming responses vs. standard responses
-
-#### Building Your First AI Interface
-- Understanding the frontend code and architecture
-- How the chat interface communicates with the Llama API
-- Customising the chat UI for different use cases
-- Markdown rendering and response formatting
-- Deploying locally and testing in the browser
-
----
-
-### Day 2: Advanced Features & Real-World Projects
-
-#### Extending Your Application with Meta Cookbook Recipes
-
-This is where you build production-ready features. The Meta Cookbook provides battle-tested patterns for common AI use cases.
-
-**Available Recipes to Implement:**
-
-1. **Text Summarisation** (Already included)
-   - Learn pattern: Information extraction
-   - Use case: Document processing, content curation
-   - Extension: Add batch processing, multi-document summaries
-
-2. **Prompt Engineering & Structured Output** (Next Level)
-   - Build JSON-formatted responses for structured data
-   - Create classification pipelines
-   - Implement fact-checking and verification
-
-3. **Retrieval-Augmented Generation (RAG)** (Advanced)
-   - Integrate local document processing
-   - Build knowledge-base Q&A systems
-   - Create domain-specific AI assistants
-
-4. **Multi-turn Conversations with Memory** (Context Management)
-   - Maintain conversation history effectively
-   - Implement session management
-   - Build conversational flows with state
-
-5. **Content Generation Pipelines** (Production Pattern)
-   - Generate blog posts, marketing copy, code
-   - Implement quality checks and filtering
-   - Build iterative refinement workflows
-
-#### Real-World Implementation Patterns
-
-**Project Ideas:**
-- **Customer Support Bot** – Multi-turn conversations with knowledge base
-- **Content Generator** – Blog posts, social media content, email campaigns
-- **Code Assistant** – Debugging help, code review, refactoring suggestions
-- **Research Assistant** – Paper summarisation, fact extraction, synthesis
-- **Educational Tool** – Interactive tutoring, quiz generation, concept explanation
-
----
-
-## Setup Instructions
-
-### Prerequisites
-- Node.js v18+ (`node -v` to check)
-- npm (comes with Node.js)
-- A text editor (VSCode recommended)
-- An OpenRouter account
-
-### Step 1: Get Your OpenRouter API Key
-
-1. Visit https://openrouter.ai/keys
-2. Sign up for a free account
-3. Create a new API key
-4. Copy the full key (starts with `sk-`)
-
-### Step 2: Clone and Navigate
-
-```bash
-git clone <repo-url>
-cd workshop-app
+```
+workshop-app/
+├── server.js              # Backend API server (your AI brain)
+├── public/
+│   └── index.html         # Frontend interface (user-facing UI)
+├── cookbook-example.js    # Meta's text summarisation recipe
+├── markdownRenderer.js    # Formats AI responses beautifully
+├── package.json           # Project dependencies
+├── .env                   # Your secret API keys (never commit this!)
+└── README.md              # You are here!
 ```
 
-### Step 3: Install Dependencies
+### How Data Flows
+
+```
+User types message in index.html
+        ↓
+Express server (server.js) receives request
+        ↓
+Server calls OpenRouter API with your key
+        ↓
+Meta Llama processes the request
+        ↓
+Response streams back to browser
+        ↓
+Markdown renderer makes it beautiful
+```
+
+**Why this matters:** Understanding this flow helps you add new AI features without breaking existing ones.
+
+***
+
+## Setup: Get Your Environment Ready
+
+### Step 1: Install Prerequisites  
+
+**Check if you have Node.js installed:**  
+```bash
+node -v
+```  
+**You need v18 or higher**
+
+**Step 1a: Install Node.js (Linux/Pop!_OS/WSL)**  
+If Node.js is not installed, run the following commands in your terminal:  
 
 ```bash
+# Update package lists
+sudo apt update
+
+# Install Node.js v18 and npm
+sudo apt install -y nodejs npm
+
+# Verify installation
+node -v
+npm -v
+```
+**Tip:**  
+- If your distro’s package manager installs an older version, you can use NodeSource for the latest v18:  
+```bash
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+```
+This ensures you’re running the correct version for the project.  
+
+
+### Step 2: Clone and Install Dependencies
+
+**Fork the repository** to your own GitHub/GitLab account, then:
+
+```bash
+git clone <your-forked-repo-url>
+cd workshop-app
 npm install
 ```
 
-If you see errors:
-- Ensure you're in the `workshop-app` directory
-- Delete `node_modules` folder and retry: `rm -rf node_modules && npm install`
-- Check Node.js version: `node -v` (should be v18+)
+**What just happened?** `npm install` downloaded all the libraries your app needs (Express, Axios, CORS, etc.).
 
-### Step 4: Configure Environment Variables
+### Step 3: Get Your Free API Key
 
-1. Create a `.env` file in the root directory
-2. Add your credentials:
+**Navigate to OpenRouter:**
+1. Visit https://openrouter.ai/keys
+2. Sign up with your email (free tier included)
+3. Create a new API key
+4. Copy the full key (starts with `sk-`)
+
+**Why OpenRouter?** It gives you free access to Meta's Llama models without setting up your own infrastructure.
+
+### Step 4: Configure Your Environment
+
+**Create a `.env` file** in the root directory:
 
 ```env
 OPENROUTER_API_KEY=sk-your-actual-key-here
 PORT=3001
 ```
 
-**Security Note:** Never commit `.env` to version control. Add it to `.gitignore`.
+**Security check:** Make sure `.env` is in your `.gitignore`. Never commit API keys to GitHub/GitLab.
 
-### Step 5: Start the Server
+### Step 5: Launch Your Application
 
+**Run the server:**
 ```bash
 npm start
 ```
 
-Visit `http://localhost:3001` in your browser. You should see:
-- **Chat Tab** – Real-time conversation with Llama
-- **Summarise Tab** – Text summarisation using Meta Cookbook recipes
+**Observe the changes:** Open `http://localhost:3001` in your browser. You should see a clean, modern chat interface with two tabs: **Chat** and **Summarise**.
 
----
+***
 
-## Current Implementation: What You Have
+## Recipe 1: Multimodal Capabilities
 
-### Architecture Overview
+**What you're building:** Enable your app to process both text and images, unlocking document analysis and visual question answering.
 
-```
-frontend (index.html)
-    ↓
-express server (server.js)
-    ↓
-OpenRouter API
-    ↓
-Meta Llama-3-70b-instruct
-```
+### Why Multimodal Matters
 
-### Key Features Implemented
+Traditional AI only processes text. Multimodal AI understands images, charts, and diagrams—making it perfect for analysing invoices, extracting data from screenshots, or interpreting graphs.
 
-| Feature | Purpose | File |
-|---------|---------|------|
-| **Chat Interface** | Real-time conversation with Llama | `index.html` |
-| **Markdown Rendering** | Formatted responses (lists, code, bold) | `index.html` (Marked.js) |
-| **API Integration** | Secure server-side API calls | `server.js` |
-| **Text Summarisation** | Extract key information | `cookbook-example.js` |
-| **Environment Config** | Secure credential management | `.env` |
+### Step 1: Add Multimodal Input to the Frontend
 
----
-
-## Extending the Project: Step-by-Step Walkthroughs
-
-### Extension 1: Add a Code Explanation Feature
-
-**Learning Goal:** Understand how to create specialised AI pipelines
-
-**What You'll Build:** A tool that explains code snippets with detailed breakdowns
-
-#### Step 1: Add a New Frontend Tab
-
-In `index.html`, add after the Summarize tab:
+**Open `index.html`** and add a new tab after the Summarise tab:
 
 ```html
 <li class="mr-2" role="presentation">
     <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300" 
-            id="explain-tab" 
-            data-tabs-target="#explain-content" 
+            id="multimodal-tab" 
+            data-tabs-target="#multimodal-content" 
             type="button" 
-            role="tab" 
-            aria-controls="explain-content" 
-            aria-selected="false">Code Explainer</button>
+            role="tab">Document Analyser</button>
 </li>
 ```
 
-#### Step 2: Add Tab Content
+### Step 2: Create the Multimodal Interface
+
+**Add this content section below the existing tabs:**
 
 ```html
-<div class="hidden p-4 rounded-lg bg-white" id="explain-content" role="tabpanel" aria-labelledby="explain-tab">
-    <textarea id="codeToExplain" rows="10" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Paste your code here..."></textarea>
-    <button onclick="explainCode()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4">Explain Code</button>
-    <div id="explanationResult" class="mt-4 p-4 border border-gray-200 rounded-lg"></div>
+<div class="hidden p-4 rounded-lg bg-white" id="multimodal-content" role="tabpanel">
+    <h3 class="text-lg font-semibold mb-3">Upload Document + Ask Questions</h3>
+    <input type="file" id="imageUpload" accept="image/*" class="mb-3 p-2 border rounded-lg w-full">
+    <img id="preview" class="max-w-md mb-3 hidden rounded-lg shadow-md" />
+    <textarea id="imageQuestion" rows="3" 
+              class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" 
+              placeholder="Ask about this document..."></textarea>
+    <button onclick="analyseDocument()" 
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg mt-3">
+        Analyse Document
+    </button>
+    <div id="analysisResult" class="mt-4 p-4 border rounded-lg bg-gray-50"></div>
 </div>
 ```
 
-#### Step 3: Create Backend Endpoint
+### Step 3: Add JavaScript Handler for Image Upload
 
-Add to `server.js`:
+**In the `<script>` section of `index.html`, add:**
 
 ```javascript
-app.post('/api/explain-code', async (req, res) => {
-  try {
-    const { code } = req.body;
-    if (!code) {
-      return res.status(400).json({ error: 'Code is required' });
+let uploadedImage = null;
+
+document.getElementById('imageUpload').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            uploadedImage = event.target.result;
+            document.getElementById('preview').src = uploadedImage;
+            document.getElementById('preview').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
     }
-
-    const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-      model: "meta-llama/llama-3-70b-instruct",
-      messages: [{
-        role: "user",
-        content: `Explain this code in detail, breaking down each section:\n\n\`\`\`\n${code}\n\`\`\`\n\nProvide:\n1. **Overview** - What does this code do?\n2. **Line-by-line breakdown** - Explain each significant part\n3. **Key concepts** - What programming patterns are used?\n4. **Potential improvements** - Any suggestions?`
-      }]
-    }, {
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    res.json({ explanation: response.data.choices[0].message.content });
-  } catch (error) {
-    console.error('Code explanation error:', error);
-    res.status(500).json({ error: 'Failed to explain code' });
-  }
 });
-```
 
-#### Step 4: Add Frontend JavaScript Handler
-
-In `index.html` script section:
-
-```javascript
-async function explainCode() {
-    const code = document.getElementById('codeToExplain').value.trim();
-    if (!code) return;
-
-    const result = document.getElementById('explanationResult');
-    result.innerHTML = '<p>Analysing code...</p>';
-
+async function analyseDocument() {
+    const question = document.getElementById('imageQuestion').value.trim();
+    const result = document.getElementById('analysisResult');
+    
+    if (!uploadedImage || !question) {
+        result.innerHTML = '<p class="text-red-500">Please upload an image and ask a question.</p>';
+        return;
+    }
+    
+    result.innerHTML = '<p>Analysing document...</p>';
+    
     try {
-        const response = await fetch('/api/explain-code', {
+        const response = await fetch('/api/multimodal', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code })
+            body: JSON.stringify({ 
+                image: uploadedImage, 
+                question: question 
+            })
         });
-
+        
         const data = await response.json();
-        result.innerHTML = `<div class="message-content">${marked.parse(data.explanation)}</div>`;
+        result.innerHTML = `<div class="message-content">${marked.parse(data.answer)}</div>`;
     } catch (error) {
-        console.error('Error:', error);
-        result.innerHTML = '<p class="text-red-500">Failed to explain code.</p>';
+        result.innerHTML = '<p class="text-red-500">Analysis failed. Try again.</p>';
     }
 }
 ```
 
----
+### Step 4: Build the Multimodal Endpoint
 
-### Extension 2: Build a Multi-turn Conversation with Context
-
-**Learning Goal:** Implement stateful conversations like ChatGPT
-
-**What You'll Build:** A conversation that remembers context across multiple turns
-
-#### Key Changes to `server.js`:
-
-The chat endpoint already supports this! The `messages` array maintains conversation history. The frontend sends all previous messages, and Llama responds with full context awareness.
-
-**To enhance it, add conversation persistence:**
+**In `server.js`, add this endpoint before `app.listen`:**
 
 ```javascript
-const conversations = {}; // Store in-memory; use database for production
-
-app.post('/api/chat-persistent', async (req, res) => {
+app.post('/api/multimodal', async (req, res) => {
   try {
-    const { conversationId, userMessage } = req.body;
+    const { image, question } = req.body;
     
-    // Initialise conversation if new
-    if (!conversations[conversationId]) {
-      conversations[conversationId] = [];
+    if (!image || !question) {
+      return res.status(400).json({ error: 'Image and question required' });
     }
-
-    // Add user message
-    conversations[conversationId].push({
-      role: 'user',
-      content: userMessage
-    });
-
-    // Keep only last 10 messages for context window
-    const recentMessages = conversations[conversationId].slice(-10);
-
+    
+    // Use Llama 3.2 Vision model for multimodal processing
     const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-      model: "meta-llama/llama-3-70b-instruct",
-      messages: recentMessages
-    }, {
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    const assistantMessage = response.data.choices[0].message;
-    conversations[conversationId].push(assistantMessage);
-
-    res.json({
-      conversationId,
-      message: assistantMessage,
-      history: conversations[conversationId]
-    });
-  } catch (error) {
-    console.error('Conversation error:', error);
-    res.status(500).json({ error: 'Failed to process message' });
-  }
-});
-```
-
----
-
-### Extension 3: Add Streaming Responses (Real-time Typing Effect)
-
-**Learning Goal:** Implement streaming for better UX
-
-**What You'll Build:** Live response streaming like ChatGPT
-
-#### Key Concepts
-
-Instead of waiting for the full response, stream tokens as they arrive:
-
-```javascript
-app.post('/api/chat-stream', async (req, res) => {
-  try {
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
-
-    const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-      model: "meta-llama/llama-3-70b-instruct",
-      messages: req.body.messages,
-      stream: true  // Enable streaming
-    }, {
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      responseType: 'stream'
-    });
-
-    response.data.on('data', (chunk) => {
-      const lines = chunk.toString().split('\n');
-      lines.forEach(line => {
-        if (line.startsWith('data:')) {
-          try {
-            const data = JSON.parse(line.slice(5));
-            if (data.choices[0].delta.content) {
-              res.write(`data: ${data.choices[0].delta.content}\n\n`);
+      model: "meta-llama/llama-3.2-90b-vision-instruct",
+      messages: [{
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text: question
+          },
+          {
+            type: "image_url",
+            image_url: {
+              url: image
             }
-          } catch (e) {}
-        }
-      });
-    });
-
-    response.data.on('end', () => res.end());
-  } catch (error) {
-    console.error('Stream error:', error);
-    res.status(500).json({ error: 'Stream failed' });
-  }
-});
-```
-
----
-
-### Extension 4: Add Fact-Checking with Multiple AI Calls
-
-**Learning Goal:** Combine multiple AI calls for validation
-
-**What You'll Build:** A fact-checker that verifies claims using Llama
-
-```javascript
-app.post('/api/fact-check', async (req, res) => {
-  try {
-    const { claim } = req.body;
-
-    // Step 1: Analyze the claim
-    const analysisResponse = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-      model: "meta-llama/llama-3-70b-instruct",
-      messages: [{
-        role: "user",
-        content: `Analyse this claim for factual accuracy: "${claim}"\n\nProvide:\n1. Verification status (True/False/Unclear)\n2. Evidence or reasoning\n3. Confidence level (High/Medium/Low)`
+          }
+        ]
       }]
     }, {
       headers: {
@@ -416,60 +264,119 @@ app.post('/api/fact-check', async (req, res) => {
         'Content-Type': 'application/json'
       }
     });
-
-    // Step 2: Generate counter-arguments
-    const counterResponse = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-      model: "meta-llama/llama-3-70b-instruct",
-      messages: [{
-        role: "user",
-        content: `What are potential counter-arguments to: "${claim}"?`
-      }]
-    }, {
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    res.json({
-      claim,
-      analysis: analysisResponse.data.choices[0].message.content,
-      counterarguments: counterResponse.data.choices[0].message.content
-    });
+    
+    res.json({ answer: response.data.choices[0].message.content });
   } catch (error) {
-    console.error('Fact-check error:', error);
-    res.status(500).json({ error: 'Fact-check failed' });
+    console.error('Multimodal error:', error);
+    res.status(500).json({ error: 'Analysis failed' });
   }
 });
 ```
 
----
+### Observe the Changes
 
-### Extension 5: Build an AI-Powered Educational Assistant
+**Restart your server** (`Ctrl+C`, then `npm start`) and refresh your browser.
 
-**Learning Goal:** Create domain-specific AI tools
+**Try this:**
+1. Click the **Document Analyser** tab
+2. Upload a screenshot of a chart or invoice
+3. Ask "What are the key insights from this image?"
+4. Watch as Llama analyses both visual and textual elements
 
-**What You'll Build:** An interactive tutor that generates exercises
+**Outcome:** Your app now processes images and text together—unlocking use cases like receipt scanning, chart interpretation, and document digitisation.
+
+***
+
+## Recipe 2: RAG (Retrieval-Augmented Generation)
+
+**What you're building:** A knowledge-grounded AI that retrieves relevant information before answering, reducing hallucinations and improving accuracy.
+
+### Why RAG is Revolutionary
+
+Standard LLMs "hallucinate"—they make up facts. RAG solves this by retrieving real documents first, then generating answers based on those documents.
+
+### Step 1: Install Vector Database Dependencies
+
+**Stop your server** and install new packages:
+
+```bash
+npm install @langchain/community pdf-parse chromadb
+```
+
+**What are these?**
+- `@langchain/community`: Tools for building RAG pipelines
+- `pdf-parse`: Extract text from PDF documents
+- `chromadb`: Vector database for semantic search
+
+### Step 2: Create a Knowledge Base Ingestion Script
+
+**Create a new file `ingestDocuments.js`:**
 
 ```javascript
-app.post('/api/tutor', async (req, res) => {
-  try {
-    const { topic, difficulty, studentLevel } = req.body;
+const { RecursiveCharacterTextSplitter } = require('@langchain/textsplitters');
+const { Chroma } = require('@langchain/community/vectorstores/chroma');
+const { OpenAIEmbeddings } = require('@langchain/openai');
+const fs = require('fs');
+const pdfParse = require('pdf-parse');
 
+async function ingestPDF(pdfPath) {
+  // Load and parse PDF
+  const dataBuffer = fs.readFileSync(pdfPath);
+  const pdfData = await pdfParse(dataBuffer);
+  
+  // Split into chunks for better retrieval
+  const textSplitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 1000,
+    chunkOverlap: 200,
+  });
+  
+  const docs = await textSplitter.createDocuments([pdfData.text]);
+  
+  // Store in vector database
+  const vectorStore = await Chroma.fromDocuments(
+    docs,
+    new OpenAIEmbeddings(),
+    { collectionName: "knowledge_base" }
+  );
+  
+  console.log(`✅ Ingested ${docs.length} document chunks`);
+  return vectorStore;
+}
+
+module.exports = { ingestPDF };
+```
+
+### Step 3: Build the RAG Query Endpoint
+
+**Add to `server.js`:**
+
+```javascript
+const { ingestPDF } = require('./ingestDocuments');
+const { Chroma } = require('@langchain/community/vectorstores/chroma');
+const { OpenAIEmbeddings } = require('@langchain/openai');
+
+app.post('/api/rag-query', async (req, res) => {
+  try {
+    const { question } = req.body;
+    
+    // Load vector store
+    const vectorStore = await Chroma.fromExistingCollection(
+      new OpenAIEmbeddings(),
+      { collectionName: "knowledge_base" }
+    );
+    
+    // Retrieve relevant documents (top 3)
+    const relevantDocs = await vectorStore.similaritySearch(question, 3);
+    
+    // Build context from retrieved documents
+    const context = relevantDocs.map(doc => doc.pageContent).join('\n\n');
+    
+    // Query Llama with context
     const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
       model: "meta-llama/llama-3-70b-instruct",
       messages: [{
         role: "user",
-        content: `Create an interactive lesson on "${topic}" for a ${studentLevel} student.
-
-Include:
-1. **Key Concept** - Explain in simple terms
-2. **Real-world Example** - Make it relatable
-3. **Practice Question** - ${difficulty} difficulty
-4. **Common Mistakes** - What should be avoided
-5. **Next Steps** - What to learn next
-
-Format with clear sections and bullet points.`
+        content: `Context:\n${context}\n\nQuestion: ${question}\n\nAnswer based only on the context provided. If the answer isn't in the context, say "I don't have that information."`
       }]
     }, {
       headers: {
@@ -477,144 +384,779 @@ Format with clear sections and bullet points.`
         'Content-Type': 'application/json'
       }
     });
-
+    
     res.json({
-      lesson: response.data.choices[0].message.content
+      answer: response.data.choices[0].message.content,
+      sources: relevantDocs.map(doc => doc.metadata)
     });
   } catch (error) {
-    console.error('Tutor error:', error);
-    res.status(500).json({ error: 'Lesson generation failed' });
+    console.error('RAG query error:', error);
+    res.status(500).json({ error: 'Query failed' });
   }
 });
 ```
 
+### Step 4: Add RAG Interface to Frontend
+
+**In `index.html`, add a new tab:**
+
+```html
+<li class="mr-2" role="presentation">
+    <button class="inline-block p-4 border-b-2 rounded-t-lg" 
+            id="rag-tab" 
+            type="button">Knowledge Q&A</button>
+</li>
+
+<div class="hidden p-4 rounded-lg bg-white" id="rag-content" role="tabpanel">
+    <h3 class="text-lg font-semibold mb-3">Ask Questions About Your Documents</h3>
+    <input type="file" id="pdfUpload" accept=".pdf" class="mb-3 p-2 border rounded-lg w-full">
+    <button onclick="uploadKnowledge()" class="bg-purple-500 text-white py-2 px-4 rounded-lg mb-4">
+        Upload Knowledge Base
+    </button>
+    <textarea id="ragQuestion" rows="3" 
+              class="w-full p-2 border rounded-lg" 
+              placeholder="Ask anything about your uploaded documents..."></textarea>
+    <button onclick="queryKnowledge()" class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-3">
+        Get Answer
+    </button>
+    <div id="ragAnswer" class="mt-4 p-4 border rounded-lg"></div>
+</div>
+```
+
+### Observe the Changes
+
+**Test your RAG system:**
+1. Upload a PDF document (research paper, product manual, etc.)
+2. Ask specific questions: "What are the main findings?" or "How does this product work?"
+3. Watch as your AI retrieves relevant sections and answers accurately
+
+**Outcome:** Your app now grounds responses in real documents, making it perfect for customer support bots, research assistants, and internal knowledge bases.
+
+***
+
+## Tool 1: DocumentLens - Multimodal Data Extraction
+
+**What you're building:** Automated extraction of text, tables, images, and charts from complex documents into structured formats (JSON, SQL, Excel).
+
+### Why DocumentLens Transforms Your UX
+
+Instead of manually copying data from invoices or reports, DocumentLens automatically extracts everything into databases or spreadsheets—saving hours of manual work.
+
+### Step 1: Install DocumentLens Dependencies
+
+```bash
+npm install xlsx @xenova/transformers sharp
+```
+
+### Step 2: Create DocumentLens Processor
+
+**Create `documentLens.js`:**
+
+```javascript
+const { pipeline } = require('@xenova/transformers');
+const xlsx = require('xlsx');
+const sharp = require('sharp');
+
+class DocumentLens {
+  constructor() {
+    this.detector = null;
+    this.extractor = null;
+  }
+  
+  async initialise() {
+    // Load document analysis models
+    this.detector = await pipeline('object-detection', 'Xenova/detr-resnet-50');
+    this.extractor = await pipeline('document-question-answering', 'Xenova/donut-base-finetuned-docvqa');
+  }
+  
+  async extractStructuredData(imagePath) {
+    // Detect tables, charts, images in document
+    const detection = await this.detector(imagePath);
+    
+    const extracted = {
+      text: [],
+      tables: [],
+      charts: [],
+      images: []
+    };
+    
+    // Process each detected element
+    for (const element of detection) {
+      if (element.label === 'table') {
+        const tableData = await this.extractTable(imagePath, element.box);
+        extracted.tables.push(tableData);
+      } else if (element.label === 'chart') {
+        const chartData = await this.extractChart(imagePath, element.box);
+        extracted.charts.push(chartData);
+      }
+    }
+    
+    return extracted;
+  }
+  
+  async exportToExcel(data, outputPath) {
+    const workbook = xlsx.utils.book_new();
+    
+    // Create sheet for tables
+    if (data.tables.length > 0) {
+      const tableSheet = xlsx.utils.json_to_sheet(data.tables[0]);
+      xlsx.utils.book_append_sheet(workbook, tableSheet, 'Extracted Tables');
+    }
+    
+    xlsx.writeFile(workbook, outputPath);
+    console.log(`✅ Exported to ${outputPath}`);
+  }
+  
+  async exportToJSON(data, outputPath) {
+    const fs = require('fs');
+    fs.writeFileSync(outputPath, JSON.stringify(data, null, 2));
+    console.log(`✅ Exported to JSON: ${outputPath}`);
+  }
+}
+
+module.exports = DocumentLens;
+```
+
+### Step 3: Build the DocumentLens API Endpoint
+
+**Add to `server.js`:**
+
+```javascript
+const DocumentLens = require('./documentLens');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
+const docLens = new DocumentLens();
+docLens.initialise();
+
+app.post('/api/document-lens', upload.single('document'), async (req, res) => {
+  try {
+    const { format } = req.body; // 'json', 'excel', or 'sql'
+    const filePath = req.file.path;
+    
+    // Extract structured data
+    const extracted = await docLens.extractStructuredData(filePath);
+    
+    // Export in requested format
+    if (format === 'excel') {
+      const outputPath = `output/${Date.now()}_extracted.xlsx`;
+      await docLens.exportToExcel(extracted, outputPath);
+      res.download(outputPath);
+    } else if (format === 'json') {
+      res.json(extracted);
+    } else if (format === 'sql') {
+      // Generate SQL INSERT statements
+      const sqlStatements = generateSQL(extracted.tables);
+      res.json({ sql: sqlStatements });
+    }
+  } catch (error) {
+    console.error('DocumentLens error:', error);
+    res.status(500).json({ error: 'Extraction failed' });
+  }
+});
+```
+
+### Observe the Changes
+
+**Run the CLI:**
+```bash
+npm start
+```
+
+**Upload a complex document** (invoice with tables, charts, and images).
+
+**Select output format:**
+- JSON: Get structured JSON ready for APIs
+- Excel: Download a spreadsheet with extracted tables
+- SQL: Get INSERT statements for databases
+
+**Outcome:** DocumentLens automates data entry, making your app perfect for invoice processing, report digitisation, and document management systems.
+
+***
+
+## Tool 2: Prompt Ops - Automated Prompt Migration
+
+**What you're building:** A CLI tool that automatically converts prompts from proprietary AI models (like GPT-4) to Llama, cutting optimisation time from days to hours and boosting performance up to 20%.
+
+### Why Prompt Ops Matters
+
+Companies waste days manually rewriting prompts when switching AI models. Prompt Ops automates this, ensuring consistency and better performance.
+
+### Step 1: Install Prompt Ops
+
+```bash
+npm install @meta-llama/prompt-ops
+```
+
+### Step 2: Create Prompt Migration Script
+
+**Create `promptMigration.js`:**
+
+```javascript
+const { PromptOps } = require('@meta-llama/prompt-ops');
+
+class PromptMigrator {
+  constructor() {
+    this.ops = new PromptOps({
+      sourceModel: 'gpt-4',
+      targetModel: 'meta-llama/llama-3-70b-instruct'
+    });
+  }
+  
+  async migratePrompt(originalPrompt) {
+    // Automatically adapt prompt for Llama
+    const adapted = await this.ops.migrate({
+      prompt: originalPrompt,
+      optimise: true,
+      validateOutput: true
+    });
+    
+    return {
+      original: originalPrompt,
+      migrated: adapted.prompt,
+      improvements: adapted.metrics,
+      performanceGain: adapted.performanceIncrease
+    };
+  }
+  
+  async batchMigrate(prompts) {
+    const results = [];
+    
+    for (const prompt of prompts) {
+      const migrated = await this.migratePrompt(prompt);
+      results.push(migrated);
+    }
+    
+    return results;
+  }
+}
+
+module.exports = PromptMigrator;
+```
+
+### Step 3: Build the Prompt Ops Endpoint
+
+**Add to `server.js`:**
+
+```javascript
+const PromptMigrator = require('./promptMigration');
+const migrator = new PromptMigrator();
+
+app.post('/api/migrate-prompt', async (req, res) => {
+  try {
+    const { prompt, batchMode, prompts } = req.body;
+    
+    if (batchMode) {
+      // Migrate multiple prompts
+      const results = await migrator.batchMigrate(prompts);
+      res.json({ 
+        totalPrompts: prompts.length,
+        migrations: results,
+        averageImprovement: calculateAverage(results.map(r => r.performanceGain))
+      });
+    } else {
+      // Single prompt migration
+      const result = await migrator.migratePrompt(prompt);
+      res.json(result);
+    }
+  } catch (error) {
+    console.error('Prompt migration error:', error);
+    res.status(500).json({ error: 'Migration failed' });
+  }
+});
+```
+
+### Step 4: Add Prompt Ops Interface
+
+**In `index.html`, create a migration tab:**
+
+```html
+<div class="p-4 rounded-lg bg-white" id="prompt-ops-content">
+    <h3 class="text-lg font-semibold mb-3">Migrate Prompts to Llama</h3>
+    <textarea id="originalPrompt" rows="6" 
+              class="w-full p-2 border rounded-lg" 
+              placeholder="Paste your GPT-4 prompt here..."></textarea>
+    <button onclick="migratePrompt()" 
+            class="bg-indigo-500 text-white py-2 px-4 rounded-lg mt-3">
+        Migrate to Llama
+    </button>
+    <div id="migrationResult" class="mt-4">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="border rounded-lg p-4">
+                <h4 class="font-semibold mb-2">Original Prompt</h4>
+                <p id="originalDisplay" class="text-sm text-gray-700"></p>
+            </div>
+            <div class="border rounded-lg p-4 bg-green-50">
+                <h4 class="font-semibold mb-2">Optimised for Llama</h4>
+                <p id="migratedDisplay" class="text-sm text-gray-700"></p>
+            </div>
+        </div>
+        <div class="mt-3 p-3 bg-blue-50 rounded-lg">
+            <p class="text-sm"><strong>Performance Gain:</strong> <span id="performanceGain">-</span></p>
+        </div>
+    </div>
+</div>
+
+<script>
+async function migratePrompt() {
+    const prompt = document.getElementById('originalPrompt').value.trim();
+    if (!prompt) return;
+    
+    const response = await fetch('/api/migrate-prompt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+    });
+    
+    const data = await response.json();
+    document.getElementById('originalDisplay').textContent = data.original;
+    document.getElementById('migratedDisplay').textContent = data.migrated;
+    document.getElementById('performanceGain').textContent = `+${data.performanceGain}%`;
+}
+</script>
+```
+
+### Observe the Changes
+
+**Test the migration:**
+1. Paste a GPT-4 prompt like: `"You are an assistant. Always be concise."`
+2. Click **Migrate to Llama**
+3. See the optimised version: `"<|begin_of_text|>You are a helpful assistant that provides concise answers.<|eot_id|>"`
+
+**Outcome:** Prompt Ops automates tedious manual rewrites, ensuring your prompts perform optimally on Llama models—saving days of experimentation.
+
+***
+
+## Tool 3: Synthetic Data CLI - Dataset Generation
+
+**What you're building:** A customisable CLI that generates high-quality synthetic datasets for fine-tuning LLMs, with support for reinforcement learning, chain-of-thought reasoning, and summary datasets.
+
+### Why Synthetic Data Generation is Essential
+
+Fine-tuning AI models requires thousands of high-quality examples. Creating them manually is impossible. Synthetic Data Tool generates them automatically.
+
+### Step 1: Install Synthetic Data Kit
+
+```bash
+npm install -g @meta-llama/synthetic-data-kit
+```
+
+### Step 2: Ingest Your Source Documents
+
+**Run the CLI to ingest documents:**
+
+```bash
+synthetic-data-kit ingest docs/training_material.pdf --multimodal
+```
+
+**What happens:** The tool extracts text and images, storing them in LanceDB format for efficient processing.
+
+**Observe:** Check `data/parsed/` for the generated `.lance` files.
+
+### Step 3: Generate Training Data
+
+**Create different dataset types:**
+
+```bash
+# Generate Q&A pairs
+synthetic-data-kit create data/parsed/training_material.lance --type qa
+
+# Generate chain-of-thought reasoning examples
+synthetic-data-kit create data/parsed/training_material.lance --type cot
+
+# Generate summarisation pairs
+synthetic-data-kit create data/parsed/training_material.lance --type summary
+
+# Generate multimodal Q&A (text + images)
+synthetic-data-kit create data/parsed/training_material.lance --type multimodal-qa
+```
+
+### Step 4: Curate High-Quality Examples
+
+**Filter low-quality examples using Llama:**
+
+```bash
+synthetic-data-kit curate data/generated/qa_pairs.json --threshold 0.8
+```
+
+**What happens:** Llama scores each example for quality, keeping only those above 0.8/1.0.
+
+### Step 5: Export for Fine-Tuning
+
+**Save in your preferred format:**
+
+```bash
+synthetic-data-kit save-as data/curated/qa_pairs.lance --format jsonl
+synthetic-data-kit save-as data/curated/qa_pairs.lance --format parquet
+synthetic-data-kit save-as data/curated/qa_pairs.lance --format csv
+```
+
+### Integrate into Your Web App
+
+**Add a dataset generation endpoint in `server.js`:**
+
+```javascript
+const { exec } = require('child_process');
+const util = require('util');
+const execPromise = util.promisify(exec);
+
+app.post('/api/generate-dataset', async (req, res) => {
+  try {
+    const { documentPath, datasetType } = req.body;
+    
+    // Step 1: Ingest document
+    await execPromise(`synthetic-data-kit ingest ${documentPath} --multimodal`);
+    
+    // Step 2: Generate dataset
+    const lancePath = `data/parsed/${documentPath.split('/').pop().replace('.pdf', '')}.lance`;
+    await execPromise(`synthetic-data-kit create ${lancePath} --type ${datasetType}`);
+    
+    // Step 3: Curate
+    await execPromise(`synthetic-data-kit curate data/generated/output.json --threshold 0.8`);
+    
+    // Step 4: Export
+    await execPromise(`synthetic-data-kit save-as data/curated/output.lance --format jsonl`);
+    
+    res.json({ 
+      success: true,
+      outputPath: 'data/curated/output.jsonl',
+      message: 'Dataset generated and curated successfully'
+    });
+  } catch (error) {
+    console.error('Dataset generation error:', error);
+    res.status(500).json({ error: 'Generation failed' });
+  }
+});
+```
+
+### Observe the Changes
+
+**Test the full pipeline:**
+1. Upload a training document (textbook chapter, product documentation)
+2. Select dataset type (Q&A, Chain-of-Thought, Summary)
+3. Click **Generate Dataset**
+4. Download the curated JSONL file ready for fine-tuning
+
+**Outcome:** You've automated dataset creation—a task that normally takes weeks. Your app can now generate training data for custom AI models on demand.
+
+## Deploy to Production  
+
+Your AI features are ready for the real world. Let’s make them live.  
+
+### Option 1: Deploy to Render (Recommended)  
+
+**Step 1:** Push your code to GitHub **or** GitLab  
+
+```bash
+git add .
+git commit -m "Added AI features: RAG, Multimodal, DocumentLens, Prompt Ops"
+git push origin main
+```
+
+**Step 2:** Connect to Render  
+1. Visit [Render](https://render.com) and sign up  
+2. Click **New +** → **Web Service**  
+3. Connect your GitHub **or GitLab** repository  
+4. Render auto‑detects Node.js  
+
+**Step 3:** Configure environment variables  
+- Set `OPENROUTER_API_KEY` to your API key  
+- Set `PORT` to `3001`  
+- Click **Create Web Service**  
+
+**Observe:** Your app deploys in minutes. Render provides a public URL like:  
+`https://your-app.onrender.com`  
+
 ---
 
-## Deployment: From Localhost to Production
+### Option 2: Deploy to Railway  
 
-### Option 1: Deploy to Render (Recommended for Beginners)
+**Step 1:** Visit [Railway](https://railway.app) and sign up  
 
-1. Push your code to GitHub
-2. Visit https://render.com
-3. Connect your GitHub repository
-4. Select "Node" environment
-5. Set environment variables:
-   - `OPENROUTER_API_KEY=sk-...`
-   - `PORT=3001`
-6. Deploy with one click
+**Step 2:** Connect your GitHub **or GitLab** repository  
 
-### Option 2: Deploy to Railway
+**Step 3:** Add environment variables in the Railway dashboard  
+- `OPENROUTER_API_KEY`  
+- `PORT=3001`  
 
-1. Visit https://railway.app
-2. Connect GitHub repository
-3. Auto-detects Node.js project
-4. Add environment variables
-5. Your app is live immediately
+**Step 4:** Deploy with one click  
 
-### Important Security Considerations
+**Outcome:** Your AI‑integrated web app is now live and accessible worldwide.  
 
-- Never commit `.env` to GitHub
-- Use `PORT` from environment: `process.env.PORT || 3001`
-- Implement rate limiting in production
-- Log API usage for cost tracking
-- Rotate API keys regularly
+**Note:**  
+- Both Render and Railway support GitLab repositories directly — you don’t need to migrate to GitHub.  
+- Always push your latest changes (`git push origin main`) before connecting.  
+- If deployment fails, double‑check environment variables and branch selection.  
 
----
+***
 
-## Troubleshooting Guide
+## What You've Achieved
 
-### API Key Issues
-- **401 Unauthorized:** Verify your key in `.env` starts with `sk-`
-- **No response:** Check key isn't expired; test in OpenRouter dashboard
-- **Rate limited:** You've exceeded your free tier; upgrade plan
+**Congratulations!** You've transformed a simple chat app into a production-grade AI platform featuring:
 
-### Dependency Problems
-- **Module not found:** Run `npm install` again
-- **Port already in use:** Change `PORT` in `.env` to 3002, 3003, etc.
-- **Server won't start:** Check `.env` syntax and file location
+- **Multimodal processing** - Analyse images + text together
+- **RAG system** - Ground responses in real documents
+- **DocumentLens** - Extract structured data from complex documents
+- **Prompt Ops** - Automate prompt migration and optimisation
+- **Synthetic Data generation** - Create fine-tuning datasets on demand
+- **Production deployment** - Live on the internet
 
-### Response Formatting Issues
-- **Plain text instead of markdown:** Verify Marked.js CDN is loaded (check browser console)
-- **Code blocks not styled:** Clear browser cache (Ctrl+Shift+Delete)
+**The Impact:** You've built features that companies pay thousands for—using free, open-source tools. This skillset makes you immediately valuable to startups and enterprises.
 
----
-
-## Industry Context: Why This Matters
-
-### The Shift from Proprietary to Open-Source
-
-| Aspect | Proprietary (ChatGPT) | Open-Source (Llama) |
-|--------|----------------------|-------------------|
-| **Cost** | $20/month or pay-per-use | Free via OpenRouter |
-| **Control** | Limited customisation | Full model ownership |
-| **Privacy** | Data goes to third party | Runs locally/on your server |
-| **Speed** | Variable API latency | Direct integration |
-| **Sustainability** | Vendor lock-in risk | Long-term independence |
-
-### Real-World Use Cases
-
-**Startups:**
-- Customer support bots (60% cost reduction)
-- Automated content generation
-- Real-time code reviews
-
-**Enterprises:**
-- Internal knowledge assistants
-- Document processing pipelines
-- Compliance checking automation
-
-**Education:**
-- Personalised tutoring systems
-- Automated grading
-- Student engagement tools
-
----
-
-## Resources
+## Resources for Continued Learning
 
 ### Official Documentation
-- [OpenRouter API Docs](https://openrouter.ai/docs)
 - [Meta Llama Documentation](https://www.llama.com/docs/)
-- [Meta AI Cookbook](https://www.llama.com/resources/cookbook/)
+- [OpenRouter API Docs](https://openrouter.ai/docs)
+- [Synthetic Data Kit Guide](https://github.com/meta-llama/synthetic-data-kit)
 
-### Further Learning
-- **Prompt Engineering:** https://www.prompt-engineering.info/
-- **RAG Systems:** Search "Vector Databases for AI"
-- **Deployment:** Render, Railway, Vercel documentation
-
-### Community Support
-- OpenRouter Discord: Join via their website
-- Meta AI Community: Active on GitHub Discussions
+### Advanced Topics
+- **Vector Databases:** Explore Pinecone, Weaviate, and ChromaDB
+- **Prompt Engineering:** Master the art of crafting perfect prompts
+- **Fine-Tuning:** Train custom Llama models on your data
 
 ---
 
-## Next Steps After the Workshop
+## GitLab CI/CD Deployment  
 
-1. **Week 1:** Extend the basic chat with one custom feature (pick from Extension 1-5)
-2. **Week 2:** Deploy your enhanced app to production
-3. **Week 3:** Build a small but complete project (support bot, tutor, content generator)
-4. **Week 4+:** Contribute to open-source AI projects; explore advanced topics
+You can automate deployment directly from GitLab using a `.gitlab-ci.yml` pipeline. This ensures your app is tested before Render or Railway picks it up.  
+
+### Example `.gitlab-ci.yml`
+
+```yaml
+stages:
+  - build
+  - test
+  - deploy
+
+# Build stage
+build:
+  stage: build
+  image: node:18
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - .next
+      - node_modules
+
+# Test stage
+test:
+  stage: test
+  image: node:18
+  script:
+    - npm run lint
+    - npm test
+
+# Deploy to Render
+deploy_render:
+  stage: deploy
+  image: curlimages/curl:latest
+  script:
+    - echo "Triggering Render deployment..."
+    - curl -X POST "https://api.render.com/deploy/srv-<SERVICE_ID>?key=$RENDER_API_KEY"
+  only:
+    - main
+
+# Deploy to Railway
+deploy_railway:
+  stage: deploy
+  image: node:18
+  script:
+    - npm install -g railway
+    - railway login --token $RAILWAY_TOKEN
+    - railway up
+  only:
+    - main
+```
 
 ---
 
-## Assessment Criteria
-
-By the end of Day 2, you should be able to:
-
-✅ **Understand:** Explain why companies adopt open-source AI and the trade-offs involved
-✅ **Build:** Implement a working AI feature beyond the base project
-✅ **Deploy:** Get your project live on the internet
-✅ **Recognise:** Identify real-world applications in your own field
-
----
-
-## Final Note
-
-**You now have a rare skillset.** AI integration capabilities differentiate senior developers from the rest. Don't just complete this workshop—use it as your foundation. Build something. Share it. Iterate. The AI era has started, and you're equipped to lead.
-
-**Questions?** Reach out to the facilitator or check troubleshooting. You've got this.
+### Setup Notes: 
+- **Environment variables:**  
+  - Add `RENDER_API_KEY` and `RAILWAY_TOKEN` in your GitLab project settings under **CI/CD → Variables**.  
+- **Service IDs:**  
+  - Replace `<SERVICE_ID>` with your Render service ID (found in Render dashboard).  
+- **Branch:**  
+  - Pipelines run on `main` by default — adjust if you use another branch.  
+- **Railway CLI:**  
+  - The `railway up` command deploys your project using the CLI.  
 
 ---
 
-*Workshop Last Updated: December 2025*
-*Built with Meta's Llama via OpenRouter*
+### Outcome
+- Every push to `main` runs **build → test → deploy**.  
+- You will see a clean pipeline: code is verified, then deployed automatically.  
+- No manual steps beyond the initial setup — deployments stay seamless.  
+---
+
+### GitLab CI/CD Pipeline Flow
+
+```text
+          ┌──────────┐
+          │   Push   │
+          │  to Git  │
+          └────┬─────┘
+               │
+               ▼
+        ┌────────────┐
+        │   Build    │
+        │ (npm run   │
+        │   build)   │
+        └────┬───────┘
+             │
+             ▼
+        ┌────────────┐
+        │    Test    │
+        │ (lint +    │
+        │   unit)    │
+        └────┬───────┘
+             │
+             ▼
+   ┌─────────────────────┐
+   │       Deploy        │
+   │   ┌─────────────┐   │
+   │   │   Render    │   │
+   │   └─────────────┘   │
+   │   ┌─────────────┐   │
+   │   │   Railway   │   │
+   │   └─────────────┘   │
+   └─────────────────────┘
+```
+
+---
+- **Push to Git** → Every commit to `main` triggers the pipeline.  
+- **Build stage** → Ensures the app compiles correctly.  
+- **Test stage** → Runs linting and unit tests to catch errors early.  
+- **Deploy stage** → Automatically ships the app to **Render** or **Railway** depending on configuration.  
+
+### Troubleshooting CI/CD Deployments
+
+Even with a clean pipeline, you may hit a few snags. Here’s how to fix the most common ones:
+
+#### 1. Missing Environment Variables
+- **Symptom:** Deployment fails with “API key not found” or app crashes on startup.  
+- **Fix:**  
+  - In GitLab → *Settings → CI/CD → Variables*, add:  
+    - `OPENROUTER_API_KEY`  
+    - `PORT=3001`  
+    - `RENDER_API_KEY` (for Render)  
+    - `RAILWAY_TOKEN` (for Railway)  
+  - Redeploy after saving.
+
+#### 2. Build Errors
+- **Symptom:** Pipeline stops at the build stage with Node.js errors.  
+- **Fix:**  
+  - Run `npm install` locally to confirm dependencies.  
+  - Check your `package.json` for missing scripts (`build`, `start`).  
+  - Make sure your Node.js version matches the one in `.gitlab-ci.yml` (e.g., `node:18`).
+
+#### 3. Test Failures
+- **Symptom:** Pipeline halts during the test stage.  
+- **Fix:**  
+  - Run `npm run lint` and `npm test` locally to identify issues.  
+  - Fix ESLint warnings or failing unit tests before pushing.  
+  - If tests aren’t ready, you can temporarily skip the test stage by commenting it out in `.gitlab-ci.yml`.
+
+#### 4. Render Deployment Not Triggering
+- **Symptom:** Code pushes but Render doesn’t redeploy.  
+- **Fix:**  
+  - Double‑check the Render service ID in `.gitlab-ci.yml`.  
+  - Ensure your Render API key is valid and stored in GitLab variables.  
+  - Verify you’re pushing to the correct branch (`main` by default).
+
+#### 5. Railway CLI Issues
+- **Symptom:** Railway deployment fails with “not logged in” or “invalid token.”  
+- **Fix:**  
+  - Confirm your `RAILWAY_TOKEN` is set in GitLab variables.  
+  - Run `railway login --token <your-token>` locally to verify it works.  
+  - Ensure the CLI is installed in the pipeline (`npm install -g railway`).
+
+### ✅ Quick Checklist
+- Push to the correct branch (`main`).  
+- Verify environment variables are set in GitLab.  
+- Run builds/tests locally before pushing.  
+- Match Node.js versions between local and pipeline.  
+- Keep your Render/ Railway tokens safe and updated. 
+
+### ✅ Success Verification  
+
+After deployment, make sure your app is live and functional:  
+
+**Step 1: Check the Public URL**  
+- Render will give you a link like:  
+  `https://your-app.onrender.com`  
+- Railway will give you a link like:  
+  `https://your-app.up.railway.app`  
+- Open the link in your browser.  
+
+**Step 2: Confirm the Homepage Loads**  
+- You should see your web app’s landing page without errors.  
+- If you added AI features (RAG, Multimodal, DocumentLens, Prompt Ops), check that they appear in the UI.  
+
+**Step 3: Test Core Features**  
+- Run a sample query through your AI feature (e.g., upload a document for DocumentLens, or test a multimodal input).  
+- Verify that results are returned correctly and the UI updates smoothly.  
+
+**Step 4: Validate Environment Variables**  
+- If features don’t work, double‑check that `OPENROUTER_API_KEY` and `PORT` are set correctly in Render/Railway.  
+- Make sure your tokens (`RENDER_API_KEY`, `RAILWAY_TOKEN`) are valid in GitLab CI/CD.  
+
+**Step 5: Monitor Logs**  
+- Render: Go to your service → **Logs** tab.  
+- Railway: Go to your project → **Logs** tab.  
+- Look for errors or warnings to troubleshoot quickly.  
+
+---
+
+### Outcome  
+If all steps succeed:  
+- Your AI‑powered web app is live.  
+- Anyone can interact with the enhanced UX/UI features.  
+- Every push to `main` automatically rebuilds, tests, and redeploys — no manual steps needed.  
+---
+
+### Next Steps  
+
+Your app is live — now let’s take it further.  
+
+**1. Share Your App**  
+- Copy your public URL from Render or Railway.  
+- Share it with classmates, on social media, or in developer communities.  
+- Encourage feedback to see how others interact with your AI features.  
+
+**2. Monitor Performance**  
+- Check logs regularly in Render/Railway dashboards for errors or warnings.  
+- Use built‑in analytics or add monitoring tools (e.g., PostHog, LogRocket) to track usage.  
+- Watch for slow responses or high memory usage and adjust accordingly.  
+
+**3. Extend Features**  
+- Add new recipes (e.g., more multimodal inputs, advanced RAG pipelines).  
+- Integrate additional tools like caching layers or vector databases for scale.  
+- Improve UI/UX with responsive design, accessibility tweaks, or custom themes.  
+
+**4. Automate Workflows**  
+- Enhance your GitLab CI/CD pipeline with staging environments.  
+- Add automated tests for new features before deployment.  
+- Configure notifications (Slack, email) for build/deploy status.  
+
+**5. Document Your Journey**  
+- Update the README with screenshots, usage examples, and lessons learned.  
+- Write a short blog post or tutorial to help future users follow your path.  
+- Keep your repo clean and professional — it’s part of your portfolio.  
+
+### Outcome  
+By sharing, monitoring, extending, automating, and documenting, users transform a simple deployment into a **real‑world project experience**. This builds confidence, showcases skills, and prepares them for collaborative development environments.  
+
+## Next Steps
+
+**1:** Add one custom feature (sentiment analysis, code generation, etc.)
+
+**2:** Deploy your enhanced app and share the URL
+
+**3:** Build a complete project (customer support bot, research assistant)
+
+**4:** Contribute to open-source AI projects, explore advanced architectures
+
+**Remember:** You're not just learning AI—you're building the future. Every feature you create here solves real-world problems. Keep building, keep shipping, keep learning.
