@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meta AI Workshop</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+    
+    /* Tab styling */
+    .tab { overflow: hidden; border: 1px solid #ccc; background-color: #f1f1f1; }
+    .tab button { background-color: inherit; float: left; border: none; outline: none; cursor: pointer; padding: 14px 16px; transition: 0.3s; }
+    .tab button:hover { background-color: #ddd; }
+    .tab button.active { background-color: #007bff; color: white; }
+    .tabcontent { display: none; padding: 20px 0; animation: fadeEffect 1s; }
+    @keyframes fadeEffect { from {opacity: 0;} to {opacity: 1;} }
+    
+    #chat, #summaryResult { border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; height: 400px; overflow-y: auto; }
+    #input, #textToSummarize { width: 100%; padding: 10px; margin-bottom: 10px; }
+    button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+    .message { margin-bottom: 10px; padding: 10px; border-radius: 5px; }
+    .user { background: #e3f2fd; align-self: flex-end; }
+    .assistant { background: #f5f5f5; }
+  </style>
+</head>
+<body>
+  <h1>Meta AI Workshop</h1>
+  
+  <div class="tab">
+    <button class="tablinks active" onclick="openTab(event, 'Chat')">Chat</button>
+    <button class="tablinks" onclick="openTab(event, 'Summarize')">Summarize</button>
+  </div>
+  
+  <div id="Chat" class="tabcontent" style="display:block">
+    <div id="chat"></div>
+    <input type="text" id="input" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+  
+  <div id="Summarize" class="tabcontent">
+    <textarea id="textToSummarize" rows="10" placeholder="Enter text to summarize..."></textarea>
+    <button onclick="summarizeText()">Summarize</button>
+    <div id="summaryResult"></div>
+  </div>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('input');
+    
+    let messages = [
+      { role: 'assistant', content: 'Hello! How can I help you today?' }
+    ];
+    
+    function renderMessages() {
+      chat.innerHTML = '';
+      messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = `message ${msg.role}`;
+        div.textContent = msg.content;
+        chat.appendChild(div);
+      });
+      chat.scrollTop = chat.scrollHeight;
+    }
+    
+    async function sendMessage() {
+      const userMessage = input.value.trim();
+      if (!userMessage) return;
+      
+      messages.push({ role: 'user', content: userMessage });
+      input.value = '';
+      renderMessages();
+      
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages })
+        });
+        
+        const data = await response.json();
+        const assistantMessage = data.choices[0].message;
+        messages.push(assistantMessage);
+        renderMessages();
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to get response');
+      }
+    }
+    
+    renderMessages();
+    
+    function openTab(evt, tabName) {
+      const tabcontent = document.getElementsByClassName("tabcontent");
+      for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      
+      const tablinks = document.getElementsByClassName("tablinks");
+      for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+    
+    async function summarizeText() {
+      const text = document.getElementById('textToSummarize').value.trim();
+      if (!text) return;
+      
+      try {
+        const response = await fetch('/api/cookbook-example', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text })
+        });
+        
+        const data = await response.json();
+        document.getElementById('summaryResult').innerHTML = 
+          `<h3>Original Text</h3><p>${data.original_text}</p>
+           <h3>Summary</h3><p>${data.summary}</p>`;
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to summarize text');
+      }
+    }
+  </script>
+</body>
+</html>
