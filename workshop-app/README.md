@@ -33,20 +33,20 @@ By the end of two days, you will be able to:
 
 ### Day 1: Foundations & Core Implementation
 
-#### Session 1: Introduction to Meta AI and OpenRouter
+#### Introduction to Meta AI and OpenRouter
 - Overview of Meta's Llama models and their capabilities
 - Understanding why open-source AI is transforming the industry
 - Getting OpenRouter API keys and exploring documentation
 - Cost comparison: Proprietary vs. open-source AI
 
-#### Session 2: Hands-on Setup & Testing
+#### Hands-on Setup & Testing
 - Setting up the project (`npm install`)
 - Configuring environment variables securely
 - Testing the basic chat endpoint with Llama
 - Exploring the Meta AI Cookbook examples
 - Understanding streaming responses vs. standard responses
 
-#### Session 3: Building Your First AI Interface
+#### Building Your First AI Interface
 - Understanding the frontend code and architecture
 - How the chat interface communicates with the Llama API
 - Customising the chat UI for different use cases
@@ -57,7 +57,7 @@ By the end of two days, you will be able to:
 
 ### Day 2: Advanced Features & Real-World Projects
 
-#### Session 1: Extending Your Application with Meta Cookbook Recipes
+#### Extending Your Application with Meta Cookbook Recipes
 
 This is where you build production-ready features. The Meta Cookbook provides battle-tested patterns for common AI use cases.
 
@@ -88,7 +88,7 @@ This is where you build production-ready features. The Meta Cookbook provides ba
    - Implement quality checks and filtering
    - Build iterative refinement workflows
 
-#### Session 2: Real-World Implementation Patterns
+#### Real-World Implementation Patterns
 
 **Project Ideas:**
 - **Customer Support Bot** – Multi-turn conversations with knowledge base
