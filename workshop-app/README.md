@@ -1,7 +1,3 @@
-Here's the revised README without emojis and citations:
-
-***
-
 # Meta AI Workshop: Build Production-Ready AI Applications
 
 **Welcome, Builder!** You're about to transform a simple web app into a powerful AI-integrated platform using Meta's Llama models. By the end of this workshop, you'll have deployed real AI features that companies pay thousands for—all using free, open-source tools.
