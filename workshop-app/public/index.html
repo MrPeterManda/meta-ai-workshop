@@ -74,7 +74,7 @@
                     <button class="inline-block p-4 border-b-2 rounded-t-lg" id="chat-tab" data-tabs-target="#chat-content" type="button" role="tab" aria-controls="chat-content" aria-selected="true">Chat</button>
                 </li>
                 <li class="mr-2" role="presentation">
-                    <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="summarize-tab" data-tabs-target="#summarize-content" type="button" role="tab" aria-controls="summarize-content" aria-selected="false">Summarize</button>
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="summarize-tab" data-tabs-target="#summarize-content" type="button" role="tab" aria-controls="summarize-content" aria-selected="false">Summarise</button>
                 </li>
             </ul>
         </div>
@@ -93,7 +93,7 @@
             <!-- Summarize Tab -->
             <div class="hidden p-4 rounded-lg bg-white" id="summarize-content" role="tabpanel" aria-labelledby="summarize-tab">
                 <textarea id="textToSummarize" rows="10" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter text to summarize..."></textarea>
-                <button onclick="summarizeText()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4">Summarize</button>
+                <button onclick="summarizeText()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4">Summarise</button>
                 <div id="summaryResult" class="mt-4 p-4 border border-gray-200 rounded-lg"></div>
             </div>
         </div>
@@ -208,8 +208,6 @@
 
                 const data = await response.json();
                 summaryResult.innerHTML = `
-                    <h3 class="text-xl font-bold mb-2">Original Text</h3>
-                    <p class="mb-4">${data.original_text}</p>
                     <h3 class="text-xl font-bold mb-2">Summary</h3>
                     <div class="message-content">${marked.parse(data.summary)}</div>
                 `;
@@ -218,6 +216,14 @@
                 summaryResult.innerHTML = '<p class="text-red-500">Failed to summarize text.</p>';
             }
         }
+        // Allow summarizing with Enter key (Ctrl+Enter for new line)
+        document.getElementById('textToSummarize').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.ctrlKey && !e.shiftKey) {
+                e.preventDefault();
+                summarizeText();
+            }
+        });
+
     </script>
 </body>
 </html>

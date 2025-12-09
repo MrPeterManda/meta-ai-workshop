@@ -39,7 +39,6 @@ app.post('/api/cookbook-example', async (req, res) => {
     
     const summary = await summarizeText(text);
     res.json({ 
-      original_text: text,
       summary: summary
     });
   } catch (error) {

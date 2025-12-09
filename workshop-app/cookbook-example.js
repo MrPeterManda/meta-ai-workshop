@@ -1,31 +1,22 @@
-// Meta AI Cookbook Example - Text Summarization
-const { pipeline } = require('@xenova/transformers');
-const { renderMarkdown } = require('./markdownRenderer');
-
-class Summarizer {
-  static task = 'summarization';
-  static model = 'Xenova/distilbart-cnn-12-6';
-  static instance = null;
-
-  static async getInstance() {
-    if (this.instance === null) {
-      this.instance = pipeline(this.task, this.model);
-    }
-    return this.instance;
-  }
-}
+// Meta AI Cookbook Example - Text Summarization using Llama
+const axios = require('axios');
 
 module.exports = async function summarizeText(text) {
   try {
-    const summarizer = await Summarizer.getInstance();
-    const result = await summarizer(text, {
-      max_length: 100,
-      min_length: 30,
+    const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
+      model: "meta-llama/llama-3-70b-instruct",
+      messages: [{
+        role: "user",
+        content: `Summarize the following text concisely:\n\n${text}`
+      }]
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
     });
     
-    // Use the markdown renderer
-    const { renderMarkdown } = require('./markdownRenderer');
-    return renderMarkdown(result[0].summary_text);
+    return response.data.choices[0].message.content;
   } catch (error) {
     console.error('Summarization error:', error);
     throw error;
