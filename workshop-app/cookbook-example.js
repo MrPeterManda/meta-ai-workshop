@@ -23,9 +23,9 @@ module.exports = async function summarizeText(text) {
       min_length: 30,
     });
     
-    // Format response with markdown for better readability
-    const markdownText = `# Summary\n\n${result[0].summary_text}`;
-    return renderMarkdown(markdownText);
+    // Use the markdown renderer
+    const { renderMarkdown } = require('./markdownRenderer');
+    return renderMarkdown(result[0].summary_text);
   } catch (error) {
     console.error('Summarization error:', error);
     throw error;
