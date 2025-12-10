@@ -180,6 +180,8 @@
                 console.error('Error:', error);
                 alert('Failed to get response');
             }
+
+            trackEvent('chat');
         }
 
         // Allow sending message with Enter key
@@ -215,6 +217,8 @@
                 console.error('Error:', error);
                 summaryResult.innerHTML = '<p class="text-red-500">Failed to summarize text.</p>';
             }
+
+            trackEvent('summarize');
         }
         // Allow summarizing with Enter key (Ctrl+Enter for new line)
         document.getElementById('textToSummarize').addEventListener('keydown', (e) => {
@@ -223,6 +227,39 @@
                 summarizeText();
             }
         });
+
+        // Analytics Configuration
+        const ANALYTICS_CONFIG = {
+        enabled: true, // Set to false to disable tracking
+        serverUrl: 'https://your-analytics-server.onrender.com/api/track',
+        studentId: 'YOUR_EMAIL_HERE', // Get this from registration
+        studentName: 'YOUR_NAME_HERE',
+        appUrl: window.location.origin
+        };
+
+        // Tracking function
+        async function trackEvent(eventType) {
+        if (!ANALYTICS_CONFIG.enabled) return;
+        if (ANALYTICS_CONFIG.studentId === 'YOUR_EMAIL_HERE') {
+            console.warn('⚠️ Analytics not configured. Please update ANALYTICS_CONFIG.studentId');
+            return;
+        }
+
+        try {
+            await fetch(ANALYTICS_CONFIG.serverUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                studentId: ANALYTICS_CONFIG.studentId,
+                studentName: ANALYTICS_CONFIG.studentName,
+                appUrl: ANALYTICS_CONFIG.appUrl,
+                eventType: eventType
+            })
+            });
+        } catch (error) {
+            console.log('Analytics tracking failed (non-critical)');
+            }
+        }
 
     </script>
 </body>
