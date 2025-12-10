@@ -231,16 +231,16 @@
         // Analytics Configuration
         const ANALYTICS_CONFIG = {
         enabled: true, // Set to false to disable tracking
-        serverUrl: 'https://your-analytics-server.onrender.com/api/track',
-        studentId: 'YOUR_EMAIL_HERE', // Get this from registration
-        studentName: 'YOUR_NAME_HERE',
+        serverUrl: 'https://meta-ai-workshop.onrender.com/api/track',
+        studentId: 'peter@wethinkcode.co.za', // Get this from registration
+        studentName: 'Peter Manda',
         appUrl: window.location.origin
         };
 
         // Tracking function
         async function trackEvent(eventType) {
         if (!ANALYTICS_CONFIG.enabled) return;
-        if (ANALYTICS_CONFIG.studentId === 'YOUR_EMAIL_HERE') {
+        if (ANALYTICS_CONFIG.studentId === 'peter@wethinkcode.co.za') {
             console.warn('⚠️ Analytics not configured. Please update ANALYTICS_CONFIG.studentId');
             return;
         }
