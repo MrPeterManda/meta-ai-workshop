@@ -127,7 +127,11 @@ npm start
 ---
 ## Deploy to Production
 
-**To complete the Google Form please first deploy your web app to render to get your web app URL. For detailed deployment instructions, see: [STUDENT-DEPLOYMENT-GUIDE.md](STUDENT-DEPLOYMENT-GUIDE.md):**
+- **To complete the Google Form and Meta AI Workshop Registration Form please first deploy your web app to render.com to get your web app URL.**
+- **For detailed deployment instructions, see: [STUDENT-DEPLOYMENT-GUIDE.md](STUDENT-DEPLOYMENT-GUIDE.md):**
+
+- [**Meta AI Workshop Registration Form:**](https://meta-workshop-analytics.onrender.com)
+
 - Fill in the **[workshop feedback form](https://docs.google.com/forms/d/e/1FAIpQLSewy25dhnbzeYtmrQrUMJETa5jAdyR-51b2tIubT5CLEKz33A/viewform?usp=publish-editor)**
 ---
 
